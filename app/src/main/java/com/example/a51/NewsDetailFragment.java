@@ -1,7 +1,6 @@
 package com.example.a51;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,10 @@ public class NewsDetailFragment extends Fragment {
     private TextView newsTitle;
     private TextView newsDescription;
 
+    public NewsDetailFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -23,11 +26,7 @@ public class NewsDetailFragment extends Fragment {
     }
 
     public void updateNewsDetails(News news) {
-        Log.d("NewsDetailFragment", "Updating news details for: " + news.getTitle());
-        if (newsTitle != null && newsDescription != null) {
-            newsTitle.setText(news.getTitle());
-            newsDescription.setText(news.getSummary());
-        }
+        newsTitle.setText(news.getTitle());
+        newsDescription.setText(news.getSummary());
     }
 }
-

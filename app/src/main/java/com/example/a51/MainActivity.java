@@ -1,12 +1,11 @@
 package com.example.a51;
 
 import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NewsAdapter.OnItemClickListener {
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     private NewsAdapter newsAdapter;
     private ArrayList<News> newsList;
     private ArrayList<Story> storiesList;
+    private boolean isDetailFragmentVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         recyclerViewTopStories = findViewById(R.id.recyclerViewTopStories);
         recyclerViewNews = findViewById(R.id.recyclerViewNews);
 
-        // Assuming constructors that handle data initialization
         topStoriesAdapter = new TopStoriesAdapter(storiesList);
         recyclerViewTopStories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewTopStories.setAdapter(topStoriesAdapter);
@@ -37,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         recyclerViewNews.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewNews.setAdapter(newsAdapter);
 
-        // Prepare and attach the detail fragment initially if needed
         if (savedInstanceState == null) {
             NewsDetailFragment fragment = new NewsDetailFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.newsDetailFragmentContainer, fragment, "NEWS_DETAIL_FRAGMENT")
+                    .hide(fragment)
                     .commit();
         }
     }
@@ -50,34 +49,45 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         storiesList = new ArrayList<>();
         newsList = new ArrayList<>();
 
-        // Initialize with sample top stories data
         storiesList.add(new Story("Top Story 1", null));
         storiesList.add(new Story("Top Story 2", null));
-        storiesList.add(new Story("Top Story 2", null));
-        storiesList.add(new Story("Top Story 2", null));
-        storiesList.add(new Story("Top Story 2", null));
+        storiesList.add(new Story("Top Story 3", null));
+        storiesList.add(new Story("Top Story 4", null));
+        storiesList.add(new Story("Top Story 5", null));
 
-
-        // Initialize with sample news data
         newsList.add(new News("News Title 1", "Summary 1", null));
         newsList.add(new News("News Title 2", "Summary 2", null));
-        newsList.add(new News("News Title 3", "Summary 1", null));
-        newsList.add(new News("News Title 4", "Summary 2", null));
-        newsList.add(new News("News Title 5", "Summary 1", null));
-        newsList.add(new News("News Title 6", "Summary 2", null));
-
-        // Add more news as needed
+        newsList.add(new News("News Title 3", "Summary 3", null));
+        newsList.add(new News("News Title 4", "Summary 4", null));
+        newsList.add(new News("News Title 5", "Summary 5", null));
     }
 
     @Override
     public void onItemClick(News news) {
-        Toast.makeText(this, "Clicked: " + news.getTitle(), Toast.LENGTH_SHORT).show();
-
         NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
                 .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
-        if (fragment != null && fragment.isVisible()) {
+        if (fragment != null && !isDetailFragmentVisible) {
             fragment.updateNewsDetails(news);
+            getSupportFragmentManager().beginTransaction()
+                    .show(fragment)
+                    .commit();
+            isDetailFragmentVisible = true;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isDetailFragmentVisible) {
+            NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
+                    .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
+            if (fragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .hide(fragment)
+                        .commit();
+                isDetailFragmentVisible = false;
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
