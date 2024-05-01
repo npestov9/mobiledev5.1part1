@@ -64,30 +64,36 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
 
     @Override
     public void onItemClick(News news) {
-        NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
-                .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
-        if (fragment != null && !isDetailFragmentVisible) {
+        NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager().findFragmentByTag("NEWS_DETAIL_FRAGMENT");
+        if (fragment != null) {
             fragment.updateNewsDetails(news);
-            getSupportFragmentManager().beginTransaction()
-                    .show(fragment)
-                    .commit();
-            isDetailFragmentVisible = true;
+            // Toggle fragment visibility
+            if (fragment.isVisible()) {
+                getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+            } else {
+                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+            }
+        } else {
+            // Initially add and show the fragment
+            fragment = new NewsDetailFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.newsDetailFragmentContainer, fragment, "NEWS_DETAIL_FRAGMENT");
+            transaction.commit();
+            getSupportFragmentManager().executePendingTransactions(); // Ensure the fragment is added immediately
+            fragment.updateNewsDetails(news);
+            getSupportFragmentManager().beginTransaction().show(fragment).commit();
         }
     }
 
+
     @Override
     public void onBackPressed() {
-        if (isDetailFragmentVisible) {
-            NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
-                    .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
-            if (fragment != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .hide(fragment)
-                        .commit();
-                isDetailFragmentVisible = false;
-            }
+        NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager().findFragmentByTag("NEWS_DETAIL_FRAGMENT");
+        if (fragment != null && fragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(fragment).commit();
         } else {
-            super.onBackPressed();
+            super.onBackPressed();  // Default back button action
         }
     }
+
 }
