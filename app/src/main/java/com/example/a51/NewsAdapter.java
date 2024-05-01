@@ -9,56 +9,54 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private List<News> newsList;
+    private static List<News> newsList;
     private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(News news);
+    }
 
     public NewsAdapter(List<News> newsList, OnItemClickListener listener) {
         this.newsList = newsList;
         this.listener = listener;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(News news);
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
-        public TextView titleView, summaryView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageViewNews);
-            titleView = itemView.findViewById(R.id.textViewNewsTitle);
-            summaryView = itemView.findViewById(R.id.textViewNewsSummary);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(newsList.get(position));
-                    }
-                }
-            });
-        }
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news, viewGroup, false);
+        return new ViewHolder(view, listener);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        News news = newsList.get(position);
-        holder.titleView.setText(news.getTitle());
-        holder.summaryView.setText(news.getSummary());
-        // Set image if available
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        News newsItem = newsList.get(position);
+        viewHolder.titleView.setText(newsItem.getTitle());
+        viewHolder.summaryView.setText(newsItem.getSummary());
     }
 
     @Override
     public int getItemCount() {
         return newsList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView titleView;
+        private final TextView summaryView;
+
+        public ViewHolder(View view, final OnItemClickListener listener) {
+            super(view);
+            titleView = view.findViewById(R.id.textViewNewsTitle);
+            summaryView = view.findViewById(R.id.textViewNewsSummary);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(newsList.get(position));
+                    }
+                }
+            });
+        }
     }
 }

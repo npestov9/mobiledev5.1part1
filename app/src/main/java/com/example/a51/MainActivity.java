@@ -1,6 +1,8 @@
 package com.example.a51;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,5 +62,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     public void onItemClick(News news) {
         // Here you update your detailed view:
         // For example, set TextViews for title, summary, etc.
+        Toast.makeText(this, "Clicked: " + news.getTitle(), Toast.LENGTH_SHORT).show();
+
     }
 }
