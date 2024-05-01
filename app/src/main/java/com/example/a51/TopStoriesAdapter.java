@@ -14,6 +14,11 @@ import java.util.List;
 public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.ViewHolder> {
     private List<Story> stories;
 
+    public TopStoriesAdapter(List<Story> stories) {
+        this.stories = stories;
+    }
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
         private final TextView textView;
@@ -31,10 +36,6 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.Vi
         public TextView getTextView() {
             return textView;
         }
-    }
-
-    public TopStoriesAdapter(List<Story> stories) {
-        this.stories = stories != null ? stories : new ArrayList<>();
     }
 
     @Override

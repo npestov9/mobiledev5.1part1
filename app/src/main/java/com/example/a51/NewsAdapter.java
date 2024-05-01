@@ -5,58 +5,56 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private List<News> newsList; // Assume News is a model class you have defined
+    private List<News> newsList;
+    private OnItemClickListener listener;
 
-    public NewsAdapter(){
-
-    }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView imageView;
-        private final TextView titleView;
-        private final TextView summaryView;
-
-        public ViewHolder(View view) {
-            super(view);
-            imageView = view.findViewById(R.id.imageViewNews);
-            titleView = view.findViewById(R.id.textViewNewsTitle);
-            summaryView = view.findViewById(R.id.textViewNewsSummary);
-        }
-
-        public ImageView getImageView() {
-            return imageView;
-        }
-
-        public TextView getTitleView() {
-            return titleView;
-        }
-
-        public TextView getSummaryView() {
-            return summaryView;
-        }
-    }
-
-    public NewsAdapter(List<News> newsList) {
+    public NewsAdapter(List<News> newsList, OnItemClickListener listener) {
         this.newsList = newsList;
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(News news);
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        public TextView titleView, summaryView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            imageView = itemView.findViewById(R.id.imageViewNews);
+            titleView = itemView.findViewById(R.id.textViewNewsTitle);
+            summaryView = itemView.findViewById(R.id.textViewNewsSummary);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onItemClick(newsList.get(position));
+                    }
+                }
+            });
+        }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news, viewGroup, false);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        News newsItem = newsList.get(position);
-        viewHolder.getTitleView().setText(newsItem.getTitle());
-        viewHolder.getSummaryView().setText(newsItem.getSummary());
-        // You can also set the image here using an image loading library
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        News news = newsList.get(position);
+        holder.titleView.setText(news.getTitle());
+        holder.summaryView.setText(news.getSummary());
+        // Set image if available
     }
 
     @Override
