@@ -51,11 +51,19 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         // Initialize with sample top stories data
         storiesList.add(new Story("Top Story 1", null));
         storiesList.add(new Story("Top Story 2", null));
-        // Add more stories as needed
+        storiesList.add(new Story("Top Story 2", null));
+        storiesList.add(new Story("Top Story 2", null));
+        storiesList.add(new Story("Top Story 2", null));
+
 
         // Initialize with sample news data
         newsList.add(new News("News Title 1", "Summary 1", null));
         newsList.add(new News("News Title 2", "Summary 2", null));
+        newsList.add(new News("News Title 1", "Summary 1", null));
+        newsList.add(new News("News Title 2", "Summary 2", null));
+        newsList.add(new News("News Title 1", "Summary 1", null));
+        newsList.add(new News("News Title 2", "Summary 2", null));
+
         // Add more news as needed
     }
 
