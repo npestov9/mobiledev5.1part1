@@ -9,7 +9,8 @@
         android:id="@+id/imageViewNews"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/textViewNewsTitle"
