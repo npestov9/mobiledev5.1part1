@@ -1,6 +1,8 @@
 package com.example.a51;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,16 +61,18 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
         // Initialize with sample news data
         newsList.add(new News("News Title 1", "Summary 1", null));
         newsList.add(new News("News Title 2", "Summary 2", null));
-        newsList.add(new News("News Title 1", "Summary 1", null));
-        newsList.add(new News("News Title 2", "Summary 2", null));
-        newsList.add(new News("News Title 1", "Summary 1", null));
-        newsList.add(new News("News Title 2", "Summary 2", null));
+        newsList.add(new News("News Title 3", "Summary 1", null));
+        newsList.add(new News("News Title 4", "Summary 2", null));
+        newsList.add(new News("News Title 5", "Summary 1", null));
+        newsList.add(new News("News Title 6", "Summary 2", null));
 
         // Add more news as needed
     }
 
     @Override
     public void onItemClick(News news) {
+        Toast.makeText(this, "Clicked: " + news.getTitle(), Toast.LENGTH_SHORT).show();
+
         NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
                 .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
         if (fragment != null && fragment.isVisible()) {
