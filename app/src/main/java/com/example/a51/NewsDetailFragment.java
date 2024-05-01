@@ -12,21 +12,20 @@ public class NewsDetailFragment extends Fragment {
     private TextView newsTitle;
     private TextView newsDescription;
 
-    public NewsDetailFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_detail, container, false);
-        newsTitle = view.findViewById(R.id.textViewNewsTitle);
+//        newsTitle = view.findViewById(R.id.textViewNewsTitle);
         newsDescription = view.findViewById(R.id.textViewNewsDescription);
         return view;
     }
 
     public void updateNewsDetails(News news) {
-        newsTitle.setText(news.getTitle());
-        newsDescription.setText(news.getSummary());
+        if (newsTitle != null && newsDescription != null) {
+            newsTitle.setText(news.getTitle());
+            newsDescription.setText(news.getSummary());
+        }
     }
 }
+

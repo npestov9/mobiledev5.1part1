@@ -36,7 +36,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return newsList == null ? 0 : newsList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick(newsList.get(position));
                     }
                 }

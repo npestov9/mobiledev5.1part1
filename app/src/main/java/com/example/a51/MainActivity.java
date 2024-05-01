@@ -71,8 +71,9 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     public void onItemClick(News news) {
         NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager()
                 .findFragmentByTag("NEWS_DETAIL_FRAGMENT");
-        if (fragment != null) {
+        if (fragment != null && fragment.isVisible()) {
             fragment.updateNewsDetails(news);
         }
     }
+
 }
