@@ -8,14 +8,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.ViewHolder> {
-    private List<Story> stories; // Assume Story is a model class you have defined
+    private List<Story> stories;
 
-    public TopStoriesAdapter(){
-
-    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
         private final TextView textView;
@@ -36,7 +34,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.Vi
     }
 
     public TopStoriesAdapter(List<Story> stories) {
-        this.stories = stories;
+        this.stories = stories != null ? stories : new ArrayList<>();
     }
 
     @Override
