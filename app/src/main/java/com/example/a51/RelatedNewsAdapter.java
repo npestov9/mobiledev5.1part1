@@ -3,40 +3,41 @@ package com.example.a51;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 
-public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.RelatedNewsViewHolder> {
+public class RelatedNewsAdapter extends RecyclerView.Adapter<RelatedNewsAdapter.ViewHolder> {
 
-    private String[] titles = {"Related News 1", "Related News 2", "Related News 3", "Related News 4", "Related News 5"};
-//    private int[] images = {R.drawable.related_news_1, R.drawable.related_news_2, R.drawable.related_news_3, R.drawable.related_news_4, R.drawable.related_news_5};
+    List<News> relatedNews;
 
-    @Override
-    public RelatedNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_related_news, parent, false);
-        return new RelatedNewsViewHolder(view);
+    public RelatedNewsAdapter(List<News> relatedNews) {
+        this.relatedNews = relatedNews;
     }
 
     @Override
-    public void onBindViewHolder(RelatedNewsViewHolder holder, int position) {
-        holder.title.setText(titles[position]);
-//        holder.imageView.setImageResource(images[position]);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_related_news, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        News news = relatedNews.get(position);
+        holder.newsTitle.setText(news.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return titles.length;
+        return relatedNews != null ? relatedNews.size() : 0;
     }
 
-    class RelatedNewsViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView title;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView newsTitle;
 
-        RelatedNewsViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageViewRelatedNews);
-            title = itemView.findViewById(R.id.textViewRelatedNewsTitle);
+            newsTitle = itemView.findViewById(R.id.textViewRelatedNewsTitle);
         }
     }
 }

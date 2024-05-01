@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
     public void onItemClick(News news) {
         NewsDetailFragment fragment = (NewsDetailFragment) getSupportFragmentManager().findFragmentByTag("NEWS_DETAIL_FRAGMENT");
         if (fragment != null) {
-            fragment.updateNewsDetails(news);
+            fragment.updateNewsDetails(news, newsList);
             // Toggle fragment visibility
             if (fragment.isVisible()) {
                 getSupportFragmentManager().beginTransaction().hide(fragment).commit();
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NewsAdapter.OnIte
             transaction.add(R.id.newsDetailFragmentContainer, fragment, "NEWS_DETAIL_FRAGMENT");
             transaction.commit();
             getSupportFragmentManager().executePendingTransactions(); // Ensure the fragment is added immediately
-            fragment.updateNewsDetails(news);
+            fragment.updateNewsDetails(news, newsList);
             getSupportFragmentManager().beginTransaction().show(fragment).commit();
         }
     }
